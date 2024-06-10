@@ -50,7 +50,7 @@
                     right: 10px;
                     width: 64px;
                     height: 64px;
-                    background-color: rgba(0, 0, 0, 0.5);
+                    background-color: rgba(0, 0, 0, 0);
                     color: red;
                     border: none;
                     cursor: pointer;
@@ -61,6 +61,7 @@
                     border-radius: 8px;
 					z-index: 2;
 					pointer-events: auto;
+					visibility: hidden;
                 }
             </style>
 </head>
@@ -69,7 +70,9 @@
       <div id="Cocos3dGameContainer">
         <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="99"></canvas>
       </div>
-	  <button id="overlayButton">X</button>
+		<button id="overlayButton">
+			<img src="btnX.png" alt="Close" border="0" width="40" height="40" />
+		</button>
     </div>
   
 
@@ -90,9 +93,19 @@
 
   <script>
                 document.getElementById('overlayButton').addEventListener('click', function() {
-                    alert('Button clicked!');
-                    // Thực hiện các hành động mong muốn tại đây
+					if (typeof window.myGameFunction === 'function') {
+						window.myGameFunction();
+						document.getElementById('overlayButton').style.visibility = "hidden";
+					} else {
+						console.log("Game function is not available yet.");
+					}
                 });
+				window.addEventListener("message", function(event){
+					if(event.data == "addButton") {
+						document.getElementById('overlayButton').style.visibility = "visible";
+						console.log(document.getElementById('overlayButton').style.visibility);
+					}
+				});
             </script>
 </body>
 </html>
